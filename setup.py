@@ -2,6 +2,15 @@ from setuptools import setup
 import os
 import subprocess
 
+# Define dependencies once
+dependencies = [
+    "streamlit",
+    "requests",
+    "numpy",
+    "pandas",
+    "plotly"
+]
+
 def create_project_structure():
     """Create necessary files and directories for the Streamlit project."""
     os.makedirs(".streamlit", exist_ok=True)
@@ -39,31 +48,26 @@ def upgrade_pip():
 
 def install_dependencies():
     """Install required dependencies."""
-    dependencies = [
-        "streamlit",
-        "requests",
-        "numpy",
-        "pandas",
-        "plotly"
-    ]
     print("📦 Installing dependencies...")
     subprocess.run(["pip", "install"] + dependencies, check=True)
+
+def create_requirements_file():
+    """Create a requirements.txt file with dependencies."""
+    with open("requirements.txt", "w") as f:
+        for dep in dependencies:
+            f.write(dep + "\n")
+    print("✅ requirements.txt created successfully!")
 
 # Run setup tasks
 create_project_structure()
 upgrade_pip()
 install_dependencies()
+create_requirements_file()
 
 # Define setup
 setup(
     name="StreamlitProjectSetup",
     version="0.1",
     description="A simple setup script for initializing a Streamlit project",
-    install_requires=[
-        "streamlit",
-        "requests",
-        "numpy",
-        "pandas",
-        "plotly"
-    ],
+    install_requires=dependencies,
 )
